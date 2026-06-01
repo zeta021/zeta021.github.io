@@ -1,1 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>个人学术主页</title>
 
+<style>
+:root {
+  --glass-bg: rgba(255, 255, 255, 0.15);
+  --glass-border: rgba(255, 255, 255, 0.25);
+  --accent: #6ee7b7;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: "Segoe UI", sans-serif;
+  min-height: 100vh;
+  background: linear-gradient(120deg, #0f2027, #203a43, #2c5364);
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* ===== 粒子背景 ===== */
+#particles {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+}
+
+/* ===== 玻璃容器 ===== */
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(14px);
+  border-radius: 20px;
+  padding: 30px;
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+/* ===== 布局 ===== */
+.container {
+  max-width: 1100px;
+  margin: auto;
+  padding: 60px 20px;
+  display: grid;
+  gap: 40px;
+}
+
+header {
+  text-align: center;
+}
+
+h1 {
+  font-size: 3rem;
+  background: linear-gradient(90deg, #6ee7b7, #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.subtitle {
+  margin-top: 10px;
+  opacity: 0.85;
+}
+
+/* ===== 网格 ===== */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+/* ===== 动画滚动 ===== */
+section {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: all 0.8s ease;
+}
+
+section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== 列表 ===== */
+ul li {
+  margin: 10px 0;
+  line-height: 1.6;
+}
+
+/* ===== 联系 ===== */
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+a:hover { text-decoration: underline; }
+
+/* ===== 光晕 ===== */
+.glow {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(110,231,183,.4), transparent 70%);
+  filter: blur(80px);
+  z-index: -1;
+}
+
+footer {
+  text-align: center;
+  padding: 30px;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+</style>
+</head>
+
+<body>
+
+<canvas id="particles"></canvas>
+
+<div class="glow" style="top:-100px; left:-100px;"></div>
+<div class="glow" style="bottom:-100px; right:-100px;"></div>
+
+<div class="container">
+
+<header class="glass">
+  <h1>张 明</h1>
+  <p class="subtitle">人工智能 · 计算机视觉 · 深度学习</p>
+  <p>📍 清华大学 · 博士在读 · ming.zhang@example.edu</p>
+</header>
+
+<section class="glass">
+  <h2>👤 个人简介</h2>
+  <p>
+    专注于计算机视觉与多模态学习研究，目前在顶级会议（CVPR / ICCV / NeurIPS）
+    发表论文 6 篇，研究方向涵盖自监督学习、三维重建与医学影像分析。
+  </p>
+</section>
+
+<section class="grid">
+  <div class="glass">
+    <h2>🎓 教育背景</h2>
+    <ul>
+      <li><strong>清华大学</strong>（2022–至今）<br>博士 · 计算机科学与技术</li>
+      <li><strong>北京大学</strong>（2018–2022）<br>学士 · 人工智能</li>
+    </ul>
+  </div>
+
+  <div class="glass">
+    <h2>🔬 研究方向</h2>
+    <ul>
+      <li>自监督视觉表示学习</li>
+      <li>医学图像分割</li>
+      <li>多模态大模型</li>
+    </ul>
+  </div>
+</section>
+
+<section class="glass">
+  <h2>📚 代表性论文</h2>
+  <ul>
+    <li><strong>Ming Zhang et al.</strong>, “Self-Supervised 3D Reconstruction”, <em>CVPR 2025</em></li>
+    <li><strong>Ming Zhang et al.</strong>, “Medical Vision-Language Pretraining”, <em>NeurIPS 2024</em></li>
+  </ul>
+</section>
+
+<section class="glass">
+  <h2>📬 联系方式</h2>
+  <p>Email: <a href="mailto:ming.zhang@example.edu">ming.zhang@example.edu</a></p>
+  <p>GitHub: <a href="#">github.com/mingzhang</a></p>
+  <p>Google Scholar: <a href="#">Ming Zhang</a></p>
+</section>
+
+</div>
+
+<footer>
+  © 2026 Ming Zhang · Academic Portfolio
+</footer>
+
+<script>
+/* ===== 粒子背景 ===== */
+const canvas = document.getElementById("particles");
+const ctx = canvas.getContext("2d");
+let w, h;
+
+function resize() {
+  w = canvas.width = innerWidth;
+  h = canvas.height = innerHeight;
+}
+resize();
+addEventListener("resize", resize);
+
+const particles = Array.from({ length: 80 }, () => ({
+  x: Math.random() * w,
+  y: Math.random() * h,
+  r: Math.random() * 2 + 1,
+  dx: (Math.random() - 0.5) * 0.6,
+  dy: (Math.random() - 0.5) * 0.6
+}));
+
+function draw() {
+  ctx.clearRect(0, 0, w, h);
+  particles.forEach(p => {
+    p.x += p.dx;
+    p.y += p.dy;
+    if (p.x < 0 || p.x > w) p.dx *= -1;
+    if (p.y < 0 || p.y > h) p.dy *= -1;
+
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+    ctx.fillStyle = "#6ee7b7";
+    ctx.fill();
+  });
+  requestAnimationFrame(draw);
+}
+draw();
+
+/* ===== 滚动动画 ===== */
+const sections = document.querySelectorAll("section");
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => e.isIntersecting && e.target.classList.add("visible"));
+}, { threshold: 0.2 });
+
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
